@@ -4,7 +4,7 @@
 
 // ------ Includes -----
 
-#include "SDL2\include\SDL.h"			
+#include "SDL2/SDL.h"			
 
 // ------ Enums -----
 

@@ -1,7 +1,7 @@
- #include "game.h"
+#include "game.h"
 #include <stdio.h>
 #include <iostream>
-#include "SDL2\include\SDL.h"
+#include "SDL2/SDL.h"
 
 int main(int argc, char* argv[]) 
 {
@@ -44,8 +44,10 @@ int main(int argc, char* argv[])
 	renderer = SDL_CreateRenderer(window, -1, 0);
 
 	// ----- Main Loop -----
+	
+	bool isRunning = true;
 
-	while (!mIO.IsKeyDown(SDLK_ESCAPE))
+	while (isRunning) //!mIO.IsKeyDown(SDLK_ESCAPE))
 	{
 		// ----- Draw -----
 
@@ -108,6 +110,11 @@ int main(int argc, char* argv[])
 				mGame.mRotation = (mGame.mRotation + 1) % 4;
 
 			break;
+		}
+		
+		case (SDLK_ESCAPE): 
+		{
+			isRunning = false;
 		}
 		}
 
