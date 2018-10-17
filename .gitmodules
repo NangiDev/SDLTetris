@@ -1,0 +1,7 @@
+[submodule "enjine"]
+    path = include/enjine
+    url = git@github.com:NangiDev/enjine.git
+    update = rebase
+    branch = master
+    ignore = all
+    shallow = true
