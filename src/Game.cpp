@@ -1,6 +1,5 @@
-
+#include "SDL2/SDL.h"
 #include "game.h"
-#include <iostream>
 
 Game::Game(Board *pBoard, Pieces *pPieces, IO *pIO, int pScreenHeight)
 {
@@ -34,8 +33,8 @@ void Game::InitGame()
 	//  Next piece
 	mNextPiece = GetRand(0, 6);
 	mNextRotation = GetRand(0, 3);
-	mNextPosX = BOARD_WIDTH + 5;
-	mNextPosY = 5;
+	mNextPosX = BOARD_WIDTH + 2;
+	mNextPosY = 3;
 }
 
 void Game::CreateNewPiece()
@@ -55,7 +54,7 @@ void Game::DrawPiece(SDL_Renderer* renderer, int pX, int pY, int pPiece, int pRo
 {
 	color mColor;               // Color of the block 
 
-								// Obtain the position in pixel in the screen of the block we want to draw
+    // Obtain the position in pixel in the screen of the block we want to draw
 	int mPixelsX = mBoard->GetXPosInPixels(pX);
 	int mPixelsY = mBoard->GetYPosInPixels(pY);
 
@@ -76,7 +75,7 @@ void Game::DrawPiece(SDL_Renderer* renderer, int pX, int pY, int pPiece, int pRo
 					mPixelsY + j * BLOCK_SIZE,
 					BLOCK_SIZE - 1,
 					BLOCK_SIZE - 1,
-					mColor);
+					mColor, pPiece);
 		}
 	}
 }
@@ -86,15 +85,16 @@ void Game::DrawBoard(SDL_Renderer* renderer)
 
 	// Calculate the limits of the board in pixels  
 	int mX1 = BOARD_POSITION - (BLOCK_SIZE * (BOARD_WIDTH / 2)) - 1;
-	int mX2 = BOARD_POSITION + (BLOCK_SIZE * (BOARD_WIDTH / 2));
-	int mY = mScreenHeight - (BLOCK_SIZE * BOARD_HEIGHT);
+	//int mX2 = BOARD_POSITION + (BLOCK_SIZE * (BOARD_WIDTH / 2));
+	int mY = 0;
+	//int mY = mScreenHeight - (BLOCK_SIZE * BOARD_HEIGHT);
 
 	// Check that the vertical margin is not to small
 	//assert (mY > MIN_VERTICAL_MARGIN);
 
 	// Rectangles that delimits the board
-	mIO->DrawRectangle(renderer, mX1 - BOARD_LINE_WIDTH, mY, BOARD_LINE_WIDTH, mScreenHeight - 1, BLUE);
-	mIO->DrawRectangle(renderer, mX2, mY, BOARD_LINE_WIDTH, mScreenHeight - 1, BLUE);
+	//mIO->DrawRectangle(renderer, mX1 - BOARD_LINE_WIDTH, mY, BOARD_LINE_WIDTH, mScreenHeight - 1, BLUE, 0);
+	//mIO->DrawRectangle(renderer, mX2, mY, BOARD_LINE_WIDTH, mScreenHeight - 1, BLUE, 0);
 
 	// Check that the horizontal margin is not to small
 	//assert (mX1 > MIN_HORIZONTAL_MARGIN);
@@ -107,18 +107,24 @@ void Game::DrawBoard(SDL_Renderer* renderer)
 		{
 			// Check if the block is filled, if so, draw it
 			if (!mBoard->IsFreeBlock(i, j))
+            {
 				mIO->DrawRectangle(renderer, mX1 + i * BLOCK_SIZE,
 					mY + j * BLOCK_SIZE,
 					BLOCK_SIZE - 1,
 					BLOCK_SIZE - 1,
-					RED);
+					RED, mBoard->GetColor(i, j));
+            }
 		}
 	}
+
+	// Rectangles that delimits the board
+    mIO->DrawBoarder(renderer);
 }
 
 void Game::DrawScene(SDL_Renderer* renderer)
 {
-	DrawBoard(renderer);                                                   // Draw the delimitation lines and blocks stored in the board
 	DrawPiece(renderer, mPosX, mPosY, mPiece, mRotation);                    // Draw the playing piece
-	//DrawPiece(renderer, mNextPosX, mNextPosY, mNextPiece, mNextRotation);    // Draw the next piece
+	DrawPiece(renderer, mNextPosX, mNextPosY, mNextPiece, mNextRotation);    // Draw the next piece
+	DrawBoard(renderer);                                                   // Draw the delimitation lines and blocks stored in the board
 }
+

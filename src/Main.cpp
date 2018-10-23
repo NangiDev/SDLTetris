@@ -31,8 +31,8 @@ int main()
 		"Tetris with SDL",
 		SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED,
-		640,
-		480,
+		( BLOCK_SIZE*BOARD_WIDTH + BOARD_LINE_WIDTH*2 ) * 2,
+		( BLOCK_SIZE*BOARD_HEIGHT + BLOCK_SIZE),
 		0
 	);
 
@@ -62,6 +62,7 @@ int main()
 		switch (mKey)
 		{
 		case (SDLK_RIGHT):
+        case (SDLK_l):
 		{
 			if (mBoard.IsPossibleMovement(mGame.mPosX + 1, mGame.mPosY, mGame.mPiece, mGame.mRotation))
 				mGame.mPosX++;
@@ -69,6 +70,7 @@ int main()
 		}
 
 		case (SDLK_LEFT):
+        case (SDLK_h):
 		{
 			if (mBoard.IsPossibleMovement(mGame.mPosX - 1, mGame.mPosY, mGame.mPiece, mGame.mRotation))
 				mGame.mPosX--;
@@ -76,6 +78,7 @@ int main()
 		}
 
 		case (SDLK_DOWN):
+        case (SDLK_j):
 		{
 			if (mBoard.IsPossibleMovement(mGame.mPosX, mGame.mPosY + 1, mGame.mPiece, mGame.mRotation))
 				mGame.mPosY++;
@@ -113,6 +116,7 @@ int main()
 		}
 		
 		case (SDLK_ESCAPE): 
+		case (SDLK_q): 
 		{
 			isRunning = false;
 		}
@@ -146,6 +150,13 @@ int main()
 			mTime1 = SDL_GetTicks();
 		}
 	}
+    
+    mIO.Close();
+    SDL_DestroyRenderer( renderer );
+    SDL_DestroyWindow( window );
+    window = NULL;
+    renderer = NULL;
+    SDL_Quit();
 
 	return 0;
 }

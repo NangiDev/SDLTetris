@@ -1,4 +1,3 @@
-
 #include "pieces.h"
 #include "board.h"
 
@@ -29,10 +28,18 @@ void Board::StorePiece(int pX, int pY, int pPiece, int pRotation)
 		for (int j1 = pY, j2 = 0; j1 < pY + PIECE_BLOCKS; j1++, j2++)
 		{
 			// Store only the blocks of the piece that are not holes
-			if (mPieces->GetBlockType(pPiece, pRotation, j2, i2) != 0)
+			if ( mPieces->GetBlockType(pPiece, pRotation, j2, i2) != 0 )
+            {
 				mBoard[i1][j1] = POS_FILLED;
+                mColor[i1][j1] = pPiece;
+            }
 		}
 	}
+}
+
+int Board::GetColor(int pX, int pY)
+{
+    return mColor[pX][pY];
 }
 
 bool Board::IsGameOver()
@@ -54,6 +61,7 @@ void Board::DeleteLine(int pY)
 		for (int i = 0; i < BOARD_WIDTH; i++)
 		{
 			mBoard[i][j] = mBoard[i][j - 1];
+			mColor[i][j] = mColor[i][j - 1];
 		}
 	}
 }
@@ -85,7 +93,8 @@ int Board::GetXPosInPixels(int pPos)
 
 int Board::GetYPosInPixels(int pPos)
 {
-	return ((mScreenHeight - (BLOCK_SIZE * BOARD_HEIGHT)) + (pPos * BLOCK_SIZE));
+	//return ((mScreenHeight - (BLOCK_SIZE * BOARD_HEIGHT)) + (pPos * BLOCK_SIZE));
+	return (pPos * BLOCK_SIZE);
 }
 
 bool Board::IsPossibleMovement(int pX, int pY, int pPiece, int pRotation)

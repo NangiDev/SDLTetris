@@ -4,9 +4,9 @@
 
 #include "pieces.h"
 
-#define BOARD_LINE_WIDTH 6
+#define BOARD_LINE_WIDTH 16
 #define BLOCK_SIZE 16
-#define BOARD_POSITION 320
+#define BOARD_POSITION 16*6
 #define BOARD_WIDTH 10
 #define BOARD_HEIGHT 20
 #define MIN_VERTICAL_MARGIN 20
@@ -23,6 +23,7 @@ public:
 	bool IsFreeBlock(int pX, int pY);
 	bool IsPossibleMovement(int pX, int pY, int pPiece, int pRotation);
 	void StorePiece(int pX, int pY, int pPiece, int pRotation);
+    int GetColor( int pX, int pY );
 	void DeletePossibleLines();
 	bool IsGameOver();
 
@@ -30,11 +31,11 @@ private:
 
 	enum { POS_FREE, POS_FILLED };
 	int mBoard[BOARD_WIDTH][BOARD_HEIGHT];
+	int mColor[BOARD_WIDTH][BOARD_HEIGHT];
 	Pieces *mPieces;
 	int mScreenHeight;
 
 	void InitBoard();
 	void DeleteLine(int pY);
 };
-
 #endif // BOARD

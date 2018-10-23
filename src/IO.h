@@ -5,6 +5,7 @@
 // ------ Includes -----
 
 #include "SDL2/SDL.h"			
+#include <iostream>
 
 // ------ Enums -----
 
@@ -16,7 +17,8 @@ public:
 
 	IO();
 
-	void DrawRectangle(SDL_Renderer*, int pX1, int pY1, int pX2, int pY2, enum color pC);
+	void DrawRectangle(SDL_Renderer*, int pX1, int pY1, int pX2, int pY2, enum color pC, int pPiece, int textureY=7);
+    void DrawBoarder(SDL_Renderer*);
 	void ClearScreen(SDL_Renderer*);
 	int GetScreenHeight();
 	int InitGraph();
@@ -24,6 +26,11 @@ public:
 	int Getkey();
 	int IsKeyDown(int pKey);
 	void UpdateScreen(SDL_Renderer*);
+    void Close();
+
+private:
+
+    void LoadTexture( std::string, SDL_Renderer*);
 
 };
 

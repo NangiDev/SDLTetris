@@ -1,6 +1,6 @@
 CC=g++
 LDFLAGS=-g -Wall -Wextra
-SDLFLAGS=-lSDL2
+SDLFLAGS=-lSDL2 -lSDL2_image
 SRC = $(wildcard src/*.cpp)
 OBJ = $(patsubst src/%.cpp, bin/%.o, $(SRC))
 
@@ -16,3 +16,6 @@ bin/%.o: src/%.cpp
 
 clean:
 	rm bin/*o tetris
+
+run:
+	./tetris
